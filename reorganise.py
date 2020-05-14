@@ -2,6 +2,7 @@
 
 import os
 import sys
+import tqdm
 import subprocess
 
 if len(sys.argv) < 2:
@@ -18,8 +19,12 @@ except OSError as err:
 
 # Get list of artists.
 artistlist = os.listdir()
+if target in artistlist:
+    print("INFO: Target already folder exist.")
+    artistlist.remove(target)
 
-for artist in artistlist:
+for artist in tqdm.tqdm(artistlist):
     if os.path.isdir(artist):
-        cmd = "cp -rf ./'{}'/* {}".format(artist, target)
+        cmd  = "rsync -r ./'{}'/* {}".format(artist, target)
+        print("Executing: [{}]".format(cmd))
         os.system(cmd)
