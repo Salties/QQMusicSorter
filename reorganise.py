@@ -25,6 +25,7 @@ if target in artistlist:
 
 for artist in tqdm.tqdm(artistlist):
     if os.path.isdir(artist):
+        artist.replace("'", "\\\'")
         cmd  = "rsync -r ./'{}'/* {}".format(artist, target)
         print("Executing: [{}]".format(cmd))
         os.system(cmd)
